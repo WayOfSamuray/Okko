@@ -1,0 +1,75 @@
+.contacts {
+  max-width: 960px;
+  margin: 32px auto 0;
+  padding: 24px 16px 40px;
+}
+
+.container {
+  background: var(--wm-bg-soft);
+  border-radius: var(--wm-radius-lg);
+  border: 1px solid var(--wm-border);
+  padding: 24px 20px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--wm-text-muted);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr;
+  grid-auto-rows: auto;
+  gap: 16px;
+}
+
+.card,
+.cardWide {
+  background: #050816;
+  border-radius: 14px;
+  padding: 16px 14px;
+  border: 1px solid var(--wm-border);
+}
+
+.cardWide {
+  grid-column: 1 / -1;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.cardText {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--wm-text-muted);
+  line-height: 1.5;
+}
+
+.list {
+  margin: 0;
+  padding-left: 16px;
+  list-style: disc;
+}
+
+.list li {
+  margin-bottom: 4px;
+}
+
+.link {
+  color: var(--wm-accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

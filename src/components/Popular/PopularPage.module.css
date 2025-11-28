@@ -1,0 +1,86 @@
+.popular {
+  max-width: 960px;
+  margin: 32px auto 0;
+  padding: 24px 16px 40px;
+}
+
+.container {
+  background: var(--wm-bg-soft);
+  border-radius: var(--wm-radius-lg);
+  border: 1px solid var(--wm-border);
+  padding: 24px 20px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--wm-text-muted);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  background: #050816;
+  border-radius: 14px;
+  padding: 16px 14px;
+  border: 1px solid var(--wm-border);
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--wm-accent);
+  color: var(--wm-accent);
+}
+
+.cardTitle {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.cardMeta {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--wm-text-muted);
+}
+
+.cardText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--wm-text-muted);
+  line-height: 1.5;
+}
+
+.hintBlock {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--wm-border);
+}
+
+.hintTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.hintText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--wm-text-muted);
+  line-height: 1.6;
+}
