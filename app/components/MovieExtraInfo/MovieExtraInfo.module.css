@@ -1,0 +1,64 @@
+.extra {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px;
+  padding: 80px 0;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.column {
+  position: relative;
+}
+
+.column:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: -40px;
+  width: 1px;
+  height: 85%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.column h3 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #ffffff;
+}
+
+.item {
+  margin-bottom: 26px;
+}
+
+.item span {
+  display: block;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.item p {
+  font-size: 17px;
+  font-weight: 500;
+  color: #f9fafb;
+  line-height: 1.6;
+}
+
+.inlineList {
+  display: inline;
+}
+
+.link {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #ffffff;
+}
+
+.item p span {
+  display: inline;
+}

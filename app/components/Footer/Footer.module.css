@@ -1,0 +1,108 @@
+.footer {
+  background: #000;
+  color: #aaa;
+  padding: 60px 80px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.icon {
+  fill: #888;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.icon:hover {
+  fill: white;
+  transform: scale(1.2);
+}
+
+.helpBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #7b3ff2, #a855f7);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.helpIcon {
+  font-size: 16px;
+}
+
+.links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 120px;
+  margin-bottom: 60px;
+}
+
+.links h4 {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.links li {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.links li:hover {
+  color: #fff;
+}
+
+.bottom {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.logo {
+  opacity: 0.8;
+}
+
+.text {
+  max-width: 700px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.linksInline {
+  display: flex;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.linksInline span {
+  background: #111;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.linksInline span:hover {
+  color: #fff;
+}

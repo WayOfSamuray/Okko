@@ -1,0 +1,37 @@
+.wrapper {
+  position: relative;
+}
+
+.input {
+  background: #111;
+  border: 1px solid #333;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.option {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.option:hover {
+  background: #2a2a2a;
+}

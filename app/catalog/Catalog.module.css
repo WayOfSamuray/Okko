@@ -1,0 +1,45 @@
+.container {
+  padding: 40px 80px;
+  color: #fff;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 25px 80px;
+}
+
+.genre {
+  font-size: 20px;
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.genre:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* subtle underline animation */
+.genre::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: width 0.25s ease;
+}
+
+.genre:hover::after {
+  width: 100%;
+}

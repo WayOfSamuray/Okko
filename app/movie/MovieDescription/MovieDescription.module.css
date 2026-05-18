@@ -1,0 +1,32 @@
+.wrapper {
+  flex: 1;
+  max-width: 700px;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.text {
+  color: #b3b3b3;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.more {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #7b5cff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.more:hover {
+  color: #a18bff;
+}

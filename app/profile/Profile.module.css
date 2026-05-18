@@ -1,0 +1,108 @@
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  color: white;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.avatarFallback {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.email {
+  color: #888;
+}
+
+.card {
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  background: #1a1a1a;
+}
+
+.movies {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.movie {
+  width: 120px;
+}
+
+.movie img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.removeBtn {
+  margin-top: 6px;
+  background: red;
+  border: none;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #222;
+  background: #111;
+  color: #fff;
+}
+
+.textarea {
+  min-height: 80px;
+  resize: none;
+}
+
+.editBtn,
+.saveBtn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.editBtn {
+  background: #333;
+  color: #fff;
+}
+
+.saveBtn {
+  background: #e50914;
+  color: #fff;
+}
