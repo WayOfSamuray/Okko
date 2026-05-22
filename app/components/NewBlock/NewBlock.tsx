@@ -7,10 +7,10 @@ import styles from "./NewBlock.module.css";
 type Movie = {
   _id: string;
   title: string;
-  image: string;
+  image: string | null | undefined;   // ← изменил тип
   year: number;
   age: string;
-  genre: { name: string }[];
+  genre?: { name: string }[];           // ← сделал optional
   averageRating?: number;
 };
 
@@ -23,7 +23,11 @@ const NewBlock = () => {
   useEffect(() => {
     fetch("/api/movies/new")
       .then((res) => res.json())
-      .then((data) => setMovies(data))
+      .then((data) => {
+        // Очистка плохих данных
+        const validMovies = data.filter((m: any) => m && m._id);
+        setMovies(validMovies);
+      })
       .catch((err) => {
         console.error("Ошибка загрузки новых фильмов:", err);
       });
@@ -34,60 +38,66 @@ const NewBlock = () => {
       <h2 className={styles.title}>Новое в подписке</h2>
 
       <div className={styles.sliderContainer}>
-        {movies.map((movie) => (
-          <div
-            key={movie._id}
-            className={styles.slide}
-            onMouseEnter={() => setHoverId(movie._id)}
-            onMouseLeave={() => setHoverId(null)}
-            onClick={() => router.push(`/movie/${movie._id}`)}
-          >
-            <div className={styles.imageWrapper}>
-              <img
-                src={movie.image}
-                className={styles.image}
-                alt={movie.title}
-              />
+        {movies.map((movie) => {
+          const imageSrc = movie.image?.trim() || "/noPhoto.jpg";
 
-              <div className={styles.overlay} />
+          return (
+            <div
+              key={movie._id}
+              className={styles.slide}
+              onMouseEnter={() => setHoverId(movie._id)}
+              onMouseLeave={() => setHoverId(null)}
+              onClick={() => router.push(`/movie/${movie._id}`)}
+            >
+              <div className={styles.imageWrapper}>
+                <img
+                  src={imageSrc}
+                  className={styles.image}
+                  alt={movie.title || "Фильм"}
+                  onError={(e) => {
+                    e.currentTarget.src = "/noPhoto.jpg";
+                  }}
+                />
 
-              <div className={styles.topLeft}>
-                <span className={styles.newBadge}>Новое</span>
-              </div>
+                <div className={styles.overlay} />
 
-              {hoveredId === movie._id && (
-                <div className={styles.hoverInfo}>
-                  <div className={styles.meta}>
-                    <span className={styles.rating}>
-                      {movie.averageRating
-                        ? movie.averageRating.toFixed(1)
-                        : "-"}
-                    </span>
-
-                    <span>{movie.year}</span>
-                    <span>{movie.age}</span>
-                  </div>
-
-                  <div>{movie.genre?.[0]?.name}</div>
-
-                  <button
-                    className={styles.detailsBtn}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/movie/${movie._id}`);
-                    }}
-                  >
-                    Подробнее
-                  </button>
+                <div className={styles.topLeft}>
+                  <span className={styles.newBadge}>Новое</span>
                 </div>
-              )}
 
-              <div className={styles.bottomInfo}>
-                <div className={styles.titleBottom}>{movie.title}</div>
+                {hoveredId === movie._id && (
+                  <div className={styles.hoverInfo}>
+                    <div className={styles.meta}>
+                      <span className={styles.rating}>
+                        {movie.averageRating
+                          ? movie.averageRating.toFixed(1)
+                          : "-"}
+                      </span>
+                      <span>{movie.year}</span>
+                      <span>{movie.age}</span>
+                    </div>
+
+                    <div>{movie.genre?.[0]?.name || "Без жанра"}</div>
+
+                    <button
+                      className={styles.detailsBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/movie/${movie._id}`);
+                      }}
+                    >
+                      Подробнее
+                    </button>
+                  </div>
+                )}
+
+                <div className={styles.bottomInfo}>
+                  <div className={styles.titleBottom}>{movie.title}</div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

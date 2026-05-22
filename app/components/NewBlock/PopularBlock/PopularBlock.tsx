@@ -7,7 +7,7 @@ import styles from "../NewBlock.module.css";
 type Movie = {
   _id: string;
   title: string;
-  image: string;
+  image: string | null | undefined;
   views: number;
   year: number;
   age: string;
@@ -23,7 +23,11 @@ const PopularBlock = () => {
   useEffect(() => {
     fetch("/api/movies/popular")
       .then((res) => res.json())
-      .then((data) => setMovies(data))
+      .then((data) => {
+        // Дополнительная очистка данных
+        const cleaned = data.filter((m: any) => m && m._id);
+        setMovies(cleaned);
+      })
       .catch(console.error);
   }, []);
 
@@ -32,39 +36,46 @@ const PopularBlock = () => {
       <h2 className={styles.title}>Самые просматриваемые</h2>
 
       <div className={styles.sliderContainer}>
-        {movies.map((movie) => (
-          <div
-            key={movie._id}
-            className={styles.slide}
-            onMouseEnter={() => setHoverId(movie._id)}
-            onMouseLeave={() => setHoverId(null)}
-            onClick={() => router.push(`/movie/${movie._id}`)}
-          >
-            <div className={styles.imageWrapper}>
-              <img
-                src={movie.image}
-                className={styles.image}
-                alt={movie.title}
-              />
+        {movies.map((movie) => {
+          const imageSrc = movie.image?.trim() || '/noPhoto.jpg';
 
-              <div className={styles.overlay} />
+          return (
+            <div
+              key={movie._id}
+              className={styles.slide}
+              onMouseEnter={() => setHoverId(movie._id)}
+              onMouseLeave={() => setHoverId(null)}
+              onClick={() => router.push(`/movie/${movie._id}`)}
+            >
+              <div className={styles.imageWrapper}>
+                <img
+                  src={imageSrc}
+                  className={styles.image}
+                  alt={movie.title || "Фильм"}
+                  onError={(e) => {
+                    e.currentTarget.src = '/noPhoto.jpg';
+                  }}
+                />
 
-              {hoveredId === movie._id && (
-                <div className={styles.hoverInfo}>
-                  <div className={styles.meta}>
-                    👁 {movie.views?.toLocaleString() || 0}
-                    <span>{movie.year}</span>
-                    <span>{movie.age}</span>
+                <div className={styles.overlay} />
+
+                {hoveredId === movie._id && (
+                  <div className={styles.hoverInfo}>
+                    <div className={styles.meta}>
+                      👁 {movie.views?.toLocaleString() || 0}
+                      <span>{movie.year}</span>
+                      <span>{movie.age}</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className={styles.bottomInfo}>
-                <div className={styles.titleBottom}>{movie.title}</div>
+                <div className={styles.bottomInfo}>
+                  <div className={styles.titleBottom}>{movie.title}</div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
