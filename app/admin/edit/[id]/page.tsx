@@ -92,7 +92,24 @@ export default function EditMoviePage() {
           return;
         }
 
-        setForm(movie);
+        setForm({
+          _id: movie._id || "",
+          title: movie.title || "",
+          interName: movie.interName || "",
+          image: movie.image || "",
+          video: movie.video || "",
+          genre: movie.genre || [],
+          year: movie.year || new Date().getFullYear(),
+          age: movie.age || "16+",
+          director: movie.director || "",
+          actors: movie.actors || [],
+          desc: movie.desc || "",
+          premiere: movie.premiere || "",
+          country: movie.country || [],
+          writers: movie.writers || [],
+          audio: movie.audio || "",
+          videoQuality: movie.videoQuality || "",
+        });
       } finally {
         setLoading(false);
       }
@@ -143,7 +160,6 @@ export default function EditMoviePage() {
 
   const deleteMovie = async () => {
     const ok = confirm("Удалить фильм?");
-
     if (!ok) return;
 
     await fetch(`/api/movies/${id}`, {
@@ -164,7 +180,6 @@ export default function EditMoviePage() {
 
   return (
     <div className={styles.page}>
-      {/* TOPBAR */}
 
       <div className={styles.topbar}>
         <div className={styles.topbarInner}>
@@ -181,53 +196,32 @@ export default function EditMoviePage() {
           </div>
 
           <div className={styles.topbarActions}>
-            <button
-              onClick={() => router.back()}
-              className={styles.backBtn}
-            >
+            <button onClick={() => router.back()} className={styles.backBtn}>
               <ArrowLeft size={18} />
             </button>
 
-            <button
-              onClick={deleteMovie}
-              className={styles.backBtn}
-            >
+            <button onClick={deleteMovie} className={styles.backBtn}>
               <Trash2 size={18} />
             </button>
 
-            <button
-              onClick={saveMovie}
-              disabled={saving}
-              className={styles.saveBtn}
-            >
+            <button onClick={saveMovie} disabled={saving} className={styles.saveBtn}>
               <Save size={18} />
-
               {saving ? "Сохранение..." : "Сохранить"}
             </button>
           </div>
         </div>
       </div>
 
-      {/* LAYOUT */}
-
       <div className={styles.layout}>
-        {/* SIDEBAR */}
 
         <div className={styles.sidebar}>
-          {/* POSTER */}
 
           <div className={styles.card}>
             <div className={styles.posterWrapper}>
               {form.image ? (
-                <img
-                  src={form.image}
-                  alt={form.title}
-                  className={styles.poster}
-                />
+                <img src={form.image} alt={form.title} className={styles.poster} />
               ) : (
-                <div className={styles.posterEmpty}>
-                  Нет постера
-                </div>
+                <div className={styles.posterEmpty}>Нет постера</div>
               )}
             </div>
 
@@ -248,43 +242,25 @@ export default function EditMoviePage() {
             </div>
           </div>
 
-          {/* PANEL */}
-
           <div className={`${styles.card} ${styles.panel}`}>
-            <h3 className={styles.panelTitle}>
-              Информация
-            </h3>
+            <h3 className={styles.panelTitle}>Информация</h3>
 
             <div className={styles.panelContent}>
               <div className={styles.panelRow}>
-                <span className={styles.panelLabel}>
-                  Статус
-                </span>
-
-                <span className={styles.status}>
-                  Published
-                </span>
+                <span className={styles.panelLabel}>Статус</span>
+                <span className={styles.status}>Published</span>
               </div>
 
               <div className={styles.panelRow}>
-                <span className={styles.panelLabel}>
-                  ID
-                </span>
-
-                <span className={styles.panelValue}>
-                  {form._id}
-                </span>
+                <span className={styles.panelLabel}>ID</span>
+                <span className={styles.panelValue}>{form._id}</span>
               </div>
             </div>
           </div>
 
-          {/* TRAILER */}
-
           <div className={styles.card}>
             <div className={styles.panel}>
-              <h3 className={styles.panelTitle}>
-                Трейлер
-              </h3>
+              <h3 className={styles.panelTitle}>Трейлер</h3>
             </div>
 
             {youtubeId ? (
@@ -294,27 +270,17 @@ export default function EditMoviePage() {
                 allowFullScreen
               />
             ) : (
-              <div className={styles.posterEmpty}>
-                Нет видео
-              </div>
+              <div className={styles.posterEmpty}>Нет видео</div>
             )}
           </div>
         </div>
 
-        {/* CONTENT */}
-
         <div className={styles.content}>
-          {/* BASIC */}
 
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>
-                Основная информация
-              </h2>
-
-              <p className={styles.sectionText}>
-                Основные данные о фильме
-              </p>
+              <h2 className={styles.sectionTitle}>Основная информация</h2>
+              <p className={styles.sectionText}>Основные данные о фильме</p>
             </div>
 
             <div className={styles.formGrid}>
@@ -326,7 +292,7 @@ export default function EditMoviePage() {
 
               <Input
                 label="Оригинальное название"
-                value={form.interName || ""}
+                value={form.interName ?? ""}
                 onChange={(v) => updateField("interName", v)}
               />
 
@@ -338,17 +304,10 @@ export default function EditMoviePage() {
             </div>
           </div>
 
-          {/* MEDIA */}
-
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>
-                Медиа
-              </h2>
-
-              <p className={styles.sectionText}>
-                Постер и трейлер
-              </p>
+              <h2 className={styles.sectionTitle}>Медиа</h2>
+              <p className={styles.sectionText}>Постер и трейлер</p>
             </div>
 
             <div className={styles.formGrid}>
@@ -366,17 +325,10 @@ export default function EditMoviePage() {
             </div>
           </div>
 
-          {/* META */}
-
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>
-                Метаданные
-              </h2>
-
-              <p className={styles.sectionText}>
-                Информация о релизе
-              </p>
+              <h2 className={styles.sectionTitle}>Метаданные</h2>
+              <p className={styles.sectionText}>Информация о релизе</p>
             </div>
 
             <div className={styles.row2}>
@@ -413,31 +365,20 @@ export default function EditMoviePage() {
                 onChange={(v) =>
                   updateField(
                     "genre",
-                    v
-                      .split(",")
-                      .map((g) => g.trim())
-                      .filter(Boolean)
-                      .map((g) => ({
-                        name: g,
-                        slug: g.toLowerCase().replace(/\s+/g, "-"),
-                      })),
+                    v.split(",").map((g) => ({
+                      name: g.trim(),
+                      slug: g.trim().toLowerCase().replace(/\s+/g, "-"),
+                    })).filter(g => g.name)
                   )
                 }
               />
             </div>
           </div>
 
-          {/* PRODUCTION */}
-
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>
-                Съёмочная группа
-              </h2>
-
-              <p className={styles.sectionText}>
-                Люди участвующие в проекте
-              </p>
+              <h2 className={styles.sectionTitle}>Съёмочная группа</h2>
+              <p className={styles.sectionText}>Люди участвующие в проекте</p>
             </div>
 
             <div className={styles.formGrid}>
@@ -461,17 +402,10 @@ export default function EditMoviePage() {
             </div>
           </div>
 
-          {/* TECH */}
-
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
-              <h2 className={styles.sectionTitle}>
-                Техническая информация
-              </h2>
-
-              <p className={styles.sectionText}>
-                Аудио и качество
-              </p>
+              <h2 className={styles.sectionTitle}>Техническая информация</h2>
+              <p className={styles.sectionText}>Аудио и качество</p>
             </div>
 
             <div className={styles.row2}>
@@ -488,12 +422,14 @@ export default function EditMoviePage() {
               />
             </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
 
+/* INPUT */
 type InputProps = {
   label: string;
   value: string;
@@ -501,21 +437,14 @@ type InputProps = {
   type?: string;
 };
 
-const Input = ({
-  label,
-  value,
-  onChange,
-  type = "text",
-}: InputProps) => {
+const Input = ({ label, value, onChange, type = "text" }: InputProps) => {
   return (
     <div className={styles.field}>
-      <label className={styles.label}>
-        {label}
-      </label>
+      <label className={styles.label}>{label}</label>
 
       <input
         type={type}
-        value={value}
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={styles.input}
       />
@@ -529,20 +458,14 @@ type TextareaProps = {
   onChange: (v: string) => void;
 };
 
-const Textarea = ({
-  label,
-  value,
-  onChange,
-}: TextareaProps) => {
+const Textarea = ({ label, value, onChange }: TextareaProps) => {
   return (
     <div className={styles.field}>
-      <label className={styles.label}>
-        {label}
-      </label>
+      <label className={styles.label}>{label}</label>
 
       <textarea
         rows={10}
-        value={value}
+        value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={styles.textarea}
       />

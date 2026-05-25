@@ -1,7 +1,7 @@
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import "./globals.css";
-import { AuthProvider } from "./providers/AuthProvider";
+import Providers from "./provider";
 
 export default function RootLayout({
   children,
@@ -11,11 +11,11 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
-        <AuthProvider>
+        <Providers>
           <Header />
           {children}
           <Footer />
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

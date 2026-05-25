@@ -13,7 +13,15 @@
   gap: 12px;
   overflow-x: auto;
   padding-bottom: 10px;
-  scrollbar-width: thin;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  scroll-behavior: smooth;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
 
 .card {

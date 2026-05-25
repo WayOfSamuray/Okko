@@ -9,6 +9,9 @@ const UserSchema = new mongoose.Schema({
   bio: String,
   isActivated: { type: Boolean, default: false },
   activationLink: String,
+  googleId: String,
+  github: String,
+  provider: String,
   favorites: [
     {
       type: mongoose.Schema.Types.ObjectId,

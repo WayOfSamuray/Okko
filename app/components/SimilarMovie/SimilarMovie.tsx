@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./SimilarMovie.module.css";
 
@@ -25,6 +25,7 @@ type Props = {
 const SimilarMovies = ({ currentId, genres }: Props) => {
   const router = useRouter();
   const [movies, setMovies] = useState<Movie[]>([]);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -42,6 +43,24 @@ const SimilarMovies = ({ currentId, genres }: Props) => {
 
     load();
   }, []);
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if(!slider) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if(Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        slider.scrollLeft += e.deltaY;
+      }
+    }
+    slider.addEventListener('wheel', handleWheel, {
+      passive: false,
+    })
+    return () => {
+      slider.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
 
   const similarMovies = useMemo(() => {
     if (!genres.length) return [];
@@ -61,7 +80,7 @@ const SimilarMovies = ({ currentId, genres }: Props) => {
     <section className={styles.section}>
       <h2 className={styles.title}>Смотрите также</h2>
 
-      <div className={styles.list}>
+      <div ref={sliderRef} className={styles.list}>
         {similarMovies.map((item) => (
           <div
             key={item._id}

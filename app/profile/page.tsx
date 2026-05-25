@@ -6,6 +6,8 @@ import styles from "./Profile.module.css";
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
 
+  const [loading, setLoading] = useState(true);
+
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
@@ -13,18 +15,28 @@ export default function ProfilePage() {
   const [file, setFile] = useState<File | null>(null);
 
   const loadUser = async () => {
-    const res = await fetch("/api/auth/me", {
-      credentials: "include",
-    });
+    try {
+      const res = await fetch("/api/auth/me", {
+        credentials: "include",
+      });
 
-    if (!res.ok) return;
+      if (!res.ok) {
+        setLoading(false);
+        return;
+      }
 
-    const data = await res.json();
-    setUser(data);
+      const data = await res.json();
 
-    setName(data.name || "");
-    setBio(data.bio || "");
-    setAvatar(data.avatar || "");
+      setUser(data);
+
+      setName(data.name || "");
+      setBio(data.bio || "");
+      setAvatar(data.avatar || "");
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -32,32 +44,51 @@ export default function ProfilePage() {
   }, []);
 
   const saveProfile = async () => {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("name", name);
-    formData.append("bio", bio);
+      formData.append("name", name);
+      formData.append("bio", bio);
 
-    if (file) {
-      formData.append("avatar", file);
+      if (file) {
+        formData.append("avatar", file);
+      }
+
+      const res = await fetch("/api/user/update", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        console.error("Ошибка обновления");
+        return;
+      }
+
+      setEditMode(false);
+      setFile(null);
+
+      loadUser();
+    } catch (e) {
+      console.error(e);
     }
-
-    const res = await fetch("/api/user/update", {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      console.error("Ошибка обновления");
-      return;
-    }
-
-    setEditMode(false);
-    setFile(null);
-    loadUser();
   };
 
-  if (!user) return <p>Загрузка...</p>;
+  if (loading) {
+    return (
+      <div className={styles.loadingWrapper}>
+        <div className={styles.loader} />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className={styles.loadingWrapper}>
+        <p>Пользователь не авторизован</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -65,7 +96,9 @@ export default function ProfilePage() {
         {avatar ? (
           <img src={avatar} className={styles.avatar} />
         ) : (
-          <div className={styles.avatarFallback}>{name?.[0] || "?"}</div>
+          <div className={styles.avatarFallback}>
+            {name?.[0] || "?"}
+          </div>
         )}
 
         <div>
@@ -98,6 +131,7 @@ export default function ProfilePage() {
               accept="image/*"
               onChange={(e) => {
                 const selected = e.target.files?.[0] || null;
+
                 setFile(selected);
 
                 if (selected) {
@@ -106,7 +140,10 @@ export default function ProfilePage() {
               }}
             />
 
-            <button className={styles.saveBtn} onClick={saveProfile}>
+            <button
+              className={styles.saveBtn}
+              onClick={saveProfile}
+            >
               Сохранить
             </button>
           </>

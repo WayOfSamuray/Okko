@@ -61,9 +61,11 @@ const NewBlock = () => {
 
                 <div className={styles.overlay} />
 
-                <div className={styles.topLeft}>
-                  <span className={styles.newBadge}>Новое</span>
-                </div>
+              {movie.year === new Date().getFullYear() && (
+  <div className={styles.topLeft}>
+    <span className={styles.newBadge}>Новое</span>
+  </div>
+)}
 
                 {hoveredId === movie._id && (
                   <div className={styles.hoverInfo}>
