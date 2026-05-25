@@ -1,25 +1,46 @@
 "use client";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { useAuth } from "../providers/AuthProvider";
-
 import styles from "./Login.module.css";
+import { signIn, useSession } from "next-auth/react";
 
-import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
+  const { data: session } = useSession();
+
   const { setUser } = useAuth();
+
+  useEffect(() => {
+    const syncOAuthUser = async () => {
+      if (!session?.accessToken) return;
+
+      await fetch("/api/auth/oauth-sync", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accessToken: session.accessToken,
+          refreshToken: session.refreshToken,
+        }),
+      });
+
+      router.push("/profile");
+      router.refresh();
+    };
+
+    syncOAuthUser();
+  }, [session, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +50,10 @@ export default function LoginPage() {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
-
         credentials: "include",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           email,
           password,
@@ -44,9 +62,7 @@ export default function LoginPage() {
 
       if (!res.ok) {
         const text = await res.text();
-
         alert(text);
-
         return;
       }
 
@@ -56,32 +72,17 @@ export default function LoginPage() {
 
       if (meRes.ok) {
         const userData = await meRes.json();
-
         setUser(userData);
       }
 
       router.push("/profile");
-
       router.refresh();
     } catch (e) {
       console.error(e);
-
       alert("Ошибка сервера");
     } finally {
       setLoading(false);
     }
-  };
-
-  const loginGoogle = async () => {
-    await signIn("google", {
-      callbackUrl: "/api/auth/oauth-success",
-    });
-  };
-
-  const loginGithub = async () => {
-    await signIn("github", {
-      callbackUrl: "/api/auth/oauth-success",
-    });
   };
 
   return (
@@ -92,19 +93,25 @@ export default function LoginPage() {
         <div className={styles.socials}>
           <button
             type="button"
-            onClick={loginGoogle}
-            className={styles.socialBtn}
+            onClick={() => signIn("google")}
+            className={`${styles.socialBtn} ${styles.google}`}
           >
-            Google
+            <FcGoogle size={22} />
+            <span>Продолжить через Google</span>
           </button>
 
           <button
             type="button"
-            onClick={loginGithub}
-            className={styles.socialBtn}
+            onClick={() => signIn("github")}
+            className={`${styles.socialBtn} ${styles.github}`}
           >
-            GitHub
+            <FaGithub size={20} />
+            <span>Продолжить через GitHub</span>
           </button>
+        </div>
+
+        <div className={styles.divider}>
+          <span>или</span>
         </div>
 
         <input

@@ -89,9 +89,11 @@ const Header = () => {
 
         {!isSearchOpen && (
           <>
-            <button onClick={handleAddMovie} className={styles.subscribe}>
-              Добавить фильм
-            </button>
+            {isAuth && (
+              <button onClick={handleAddMovie} className={styles.subscribe}>
+                Добавить фильм
+              </button>
+            )}
 
             <button className={styles.promo}>
               <span className={styles.gift}>🎁</span>
