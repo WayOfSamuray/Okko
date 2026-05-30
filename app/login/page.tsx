@@ -35,7 +35,7 @@ export default function LoginPage() {
         }),
       });
 
-      router.push("/profile");
+      router.push("/");
       router.refresh();
     };
 
@@ -75,7 +75,7 @@ export default function LoginPage() {
         setUser(userData);
       }
 
-      router.push("/profile");
+      router.push("/");
       router.refresh();
     } catch (e) {
       console.error(e);
@@ -93,7 +93,11 @@ export default function LoginPage() {
         <div className={styles.socials}>
           <button
             type="button"
-            onClick={() => signIn("google")}
+            onClick={() => {
+              signIn('google', {
+                callbackUrl: '/',
+              })
+            }}
             className={`${styles.socialBtn} ${styles.google}`}
           >
             <FcGoogle size={22} />
@@ -102,7 +106,11 @@ export default function LoginPage() {
 
           <button
             type="button"
-            onClick={() => signIn("github")}
+            onClick={() => {
+              signIn('github', {
+                callbackUrl: '/',
+              })
+            }}
             className={`${styles.socialBtn} ${styles.github}`}
           >
             <FaGithub size={20} />

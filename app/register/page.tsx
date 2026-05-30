@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
+
 export default function RegisterPage() {
   const router = useRouter();
 
@@ -57,7 +58,11 @@ export default function RegisterPage() {
         <div className={styles.socials}>
           <button
             type="button"
-            onClick={() => signIn("google")}
+            onClick={() => {
+              signIn('google', {
+                callbackUrl: '/',
+              })
+            }}
             className={`${styles.socialBtn} ${styles.google}`}
           >
             <FcGoogle size={22} />
@@ -66,7 +71,11 @@ export default function RegisterPage() {
 
           <button
             type="button"
-            onClick={() => signIn("github")}
+            onClick={() => {
+              signIn('github', {
+                callbackUrl: '/',
+              })
+            }}
             className={`${styles.socialBtn} ${styles.github}`}
           >
             <FaGithub size={20} />
