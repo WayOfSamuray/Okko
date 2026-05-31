@@ -35,7 +35,7 @@ export default function AdminPage() {
       return;
     }
 
-    if (user?.id !== "*****") {
+    if (user?.id !== "69e28386b57d3d2a9796d055") {
       router.replace("/");
     }
   }, [isAuth, user, router]);
