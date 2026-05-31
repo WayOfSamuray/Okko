@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Admin.module.css";
 import CountrySelect from "./CountrySelect";
 import GenreSelect from "./genres/GenreSelect";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../providers/AuthProvider";
 
 type FormState = {
   title: string;
@@ -24,6 +26,24 @@ type FormState = {
 };
 
 export default function AdminPage() {
+  const router = useRouter();
+  const { user, isAuth } = useAuth();
+
+  useEffect(() => {
+    if (!isAuth) {
+      router.replace("/");
+      return;
+    }
+
+    if (user?.id !== "*****") {
+      router.replace("/");
+    }
+  }, [isAuth, user, router]);
+
+  if (!isAuth || user?.id !== "69e28386b57d3d2a9796d055") {
+    return null;
+  }
+
   const [form, setForm] = useState<FormState>({
     title: "",
     interName: "",

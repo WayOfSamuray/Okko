@@ -57,7 +57,7 @@ const MovieSearch = ({ onClose }: Props) => {
     <div className={styles.overlay}>
       <div className={styles.searchContainer}>
         <div className={styles.inputWrapper}>
-          {/* 🔍 Иконка поиска */}
+
           <Search className={styles.searchIcon} size={20} />
 
           <input
